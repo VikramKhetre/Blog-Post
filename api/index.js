@@ -1,6 +1,7 @@
 import  express from "express"
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import userRoute from "./routes/userRoute.js"
 
 dotenv.config();
 
@@ -18,6 +19,4 @@ app.listen(8080,()=>{
     console.log("Listinging at 8080!");
 })
 
-app.use("/",()=>{
-    console.log("use is working")
-})
+app.use("/api",userRoute)
