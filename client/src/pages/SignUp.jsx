@@ -7,6 +7,7 @@ export default function SignUP() {
     const [errorMsg, setErrorMsg]= useState(null);
     const [loading, setLoading]= useState(false);
     const navigate = useNavigate();
+    
     function handleChange(event){
         setFormData({...formData, [event.target.id]:event.target.value.trim()});
     }
