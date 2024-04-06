@@ -1,13 +1,17 @@
 import { Link ,useNavigate} from "react-router-dom";
 import { Label, Navbar, TextInput, Button, Alert, Spinner } from "flowbite-react";
 import { useState } from "react";
+// to use siginInFailure .. etc useDispatch is required
+import {useDispatch,useSelector} from 'react-redux'
+import {signInStart,signInSucess,signInFailure } from "../redux/user/userSlice";
 
 export default function SignIn() {
     const [formData, setFormData] = useState({});
-    const [errorMsg, setErrorMsg]= useState(null);
-    const [loading, setLoading]= useState(false);
     const navigate = useNavigate();
-    
+    const dispatch = useDispatch();
+    const {loading,error:errorMsg}=useSelector(state=>state.user);
+
+
     function handleChange(event){
         setFormData({...formData, [event.target.id]:event.target.value.trim()});
     }
@@ -16,28 +20,27 @@ export default function SignIn() {
         event.preventDefault();
         // if anyone subit withoud data 
         if(!formData.email|| !formData.password){
-            return setErrorMsg("please fill out all fields")
+            return dispatch(signInFailure("please fill out all fields"))
         }
         try{
-            setLoading(true)
-            setErrorMsg(null)
+            dispatch(signInStart())
             const res = await fetch("/api/auth/signin",{
             method: 'POST',
             headers: {'Content-Type':"application/json"},
             body: JSON.stringify(formData),
         });
             const data = await res.json();
+            console.log("------------>"+data);
             if(data.sucess === false){
-                return setErrorMsg(data.message)
+                dispatch(signInFailure(data.message))
             }
-            setLoading(false)
             if(res.ok){
+                dispatch(signInSucess(data))
                 navigate("/")
             }
     }catch(error){
         // if there is any error at client side
-        setErrorMsg(error.message);
-        setLoading(false)
+        dispatch(signInFailure(error.message))
     }
 };
 
