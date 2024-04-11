@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "./routes/userRoute.js"
 import authRoute from "./routes/authRoute.js"
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ mongoose
 const app = express();
 
 app.use(express.json())
+app.use(cookieParser());
 
 app.listen(8080,()=>{
     console.log("Lisnging at 8080!");
