@@ -4,6 +4,6 @@ import {test,updateUser} from "../controllers/userController.js"
 import {verifyToken} from "../utils/verifyUser.js"
 
 router.get("/test",test)
-router.put("/update/:userId",verifyToken,updateUser)
+router.put("/user/update/:userId",verifyToken,updateUser)
 
 export default router
