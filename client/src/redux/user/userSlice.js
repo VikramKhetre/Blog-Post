@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
   currentUser: null,
@@ -36,22 +36,38 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    deleteUserStart:(state)=>{
+    deleteUserStart: (state) => {
       state.loading = true;
       state.error = false;
     },
-    deleteUserSuccess:(state)=>{
-      state.currentUser = null
+    deleteUserSuccess: (state) => {
+      state.currentUser = null;
       state.loading = false;
       state.error = false;
     },
-    deleteUserFailure:(state,action)=>{
+    deleteUserFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
-    }
+    },
+    signoutSuccess: (state) => {
+      state.currentUser = null;
+      state.loading = null;
+      state.error = null;
+    },
   },
 });
 
-export const { signInStart, signInSucess, signInFailure, updateStart, updateSuccess, updateFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure} = userSlice.actions;
+export const {
+  signInStart,
+  signInSucess,
+  signInFailure,
+  updateStart,
+  updateSuccess,
+  updateFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+  signoutSuccess,
+} = userSlice.actions;
 
 export default userSlice.reducer;
