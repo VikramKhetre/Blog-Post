@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { TextInput, Alert, Button, Modal } from "flowbite-react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import {Link} from "react-router-dom";
+
 import {
   getDownloadURL,
   getStorage,
@@ -225,9 +227,25 @@ export default function () {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          Update
+        <Button
+          type='submit'
+          gradientDuoTone='purpleToBlue'
+          outline
+          disabled={loading || imageFileUploading}
+        >
+          {loading ? 'Loading...' : 'Update'}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+            <Button
+              type='button'
+              gradientDuoTone='purpleToPink'
+              className='w-full'
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
