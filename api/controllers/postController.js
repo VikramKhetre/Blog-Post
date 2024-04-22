@@ -5,7 +5,7 @@ export const create = async (req,res,next)=>{
     if(!req.user.isAdmin){
         return next(errorHandler(404,"you are not allowed to create post"))
     }
-    if(req.body.title || !req.body.content){
+    if(!req.body.title || !req.body.content){
         return next (errorHandler("404","please provide all required fields"))
     }
     const slug = req.body.title
