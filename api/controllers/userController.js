@@ -50,7 +50,8 @@ export const updateUser = async (req,res,next)=>{
 }
 
 export const deleteUser = async (req,res,next)=>{
-    if(req.user.id !== req.params.userId){
+    // conditon for both routes delte from admin & delte by user own
+    if(!req.user.isAdmin && req.user.id !== req.params.userId){
         return next(errorHandler(403, "u are not allowed to update this user"));
     }
     try{
