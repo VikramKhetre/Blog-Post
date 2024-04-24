@@ -69,3 +69,49 @@ export const signout = (req,res,next)=>{
         next(error);
     }
 }
+
+export const getUser = async(req,res,next)=>{
+    if(!req.user.isAdmin){
+        next(errorHandler(403,"not allowed to get user"))
+    }
+    try{
+        const startIndex = parseInt(req.query.startIndex) || 0;
+        const limit = parseInt(req.query.limit) || 9;
+        const sortDirection = req.query.sortDirection === 'asc' ? 1:-1; 
+
+        const users = await User.find()
+        .sort({createdAt:sortDirection})
+        .skip(startIndex)
+        .limit(limit)
+
+        // here to remove password from the users
+        const userWithoutPassword =  users.map((user)=>{
+            const{password,...rest} = user._doc
+            return rest;
+        });
+
+        const totalUsers = await User.countDocuments();
+
+        // total users for previous month
+
+        const now = new Date();
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth()-1,
+            now.getDate()
+        );
+
+        const lastMonthUsers = await User.countDocuments({
+            createdAt:{$gte:oneMonthAgo}
+        });
+        
+        res.status(200).json({
+            userWithoutPassword,
+            totalUsers,
+            lastMonthUsers
+        });
+
+    }catch(error){
+        next(error)
+    }
+}
