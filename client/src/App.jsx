@@ -11,6 +11,7 @@ import FooterCom from './components/FooterCom'
 import PrivateRoute from './components/PrivateRoute'
 import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
 import UpdatePost from './pages/UpdatePost'
+import PostPage from './pages/PostPage'
 
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
         </Route>
         <Route path='/signin'element={<SignIn/>}/>
         <Route path='/signup'element={<SignUP/>}/>
+        <Route path='/post/:postSlug'element={<PostPage/>}/>
       </Routes>
       <FooterCom/>
     </BrowserRouter>
