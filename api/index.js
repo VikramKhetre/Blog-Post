@@ -27,7 +27,7 @@ app.listen(8080,()=>{
     console.log("Lisnging at 8080!");
 })
 
-app.use("/api",userRoute)
+app.use("/api/user",userRoute)
 app.use("/api/auth",authRoute)
 app.use("/api/post",postRoute)
 app.use("/api/comment",commentRoute)
